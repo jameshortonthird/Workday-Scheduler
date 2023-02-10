@@ -1,6 +1,6 @@
 // Set the current date via moment JS in the header
-var today = moment().format('dddd, MMM do YYYY, h:mm:ss a');
-$("#currentDay").html(today);
+var currentDay = moment().format('dddd, MMM do YYYY, h:mm:ss a');
+$("#currentDay").html(currentDay);
 // Wrapped all code that interacts witht he Dom in a call to jQ
 $(document).ready(function (){
   $(".saveBtn").on("click", function (){
@@ -10,24 +10,24 @@ $(document).ready(function (){
 
     localStorage.setItem(time, textTyped);
   })
-  // A function to display time blocks in the correct color based on time of day 
+  // A function to display time blocks in the correct color based on time of day along with the tasks saved for that hour block in local storage
   function pastPresentFuture() {
 
-    const exactTime = moment().hour();
+    const currentTime = moment().hour();
     
-    console.log(exactTime)
+    console.log(currentTime)
 
     $(".time-block").each(function (){
       const hourBlocks = parseInt($(this).attr("id").split("hour-")[1]);
 
       console.log(hourBlocks)
 
-      if (hourBlocks < exactTime) {
+      if (hourBlocks < currentTime) {
         $(this).removeClass("future");
         $(this).removeClass("present");
         $(this).addClass("past");
       }
-      else if (hourBlocks === exactTime) {
+      else if (hourBlocks === currentTime) {
         $(this).removeClass("past");
         $(this).removeClass("future");
         $(this).addClass("present");
@@ -65,6 +65,7 @@ $(document).ready(function (){
   $("#hour-23 .description").val(localStorage.getItem("hour-23"));
   $("#hour-24 .description").val(localStorage.getItem("hour-24"));
 
+  // call function to discplay timeblocks correctly and users saved tasks for a given hour 
   pastPresentFuture();
 
 })
